@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from productos import Producto 
+from productos import Producto, Consumibles, Reactivo, Equipo
 from tabulate import tabulate
 
 class Inventario:
@@ -15,7 +15,8 @@ class Inventario:
     #la lista self.productos
     def agregar_producto(self, producto):
         self.productos.append(producto)
-        
+        for p in self.productos:
+            print(p)
 
 
     def eliminar_producto(self, nombre):

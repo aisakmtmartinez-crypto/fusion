@@ -1,6 +1,2 @@
-nombre,precio,cantidad
-Salero,200.0,2
-Guita,200.0,4
-Ice cube,10.0,2
-Mesa,200.0,2
-Audifonos,350.0,2
+tipo,id,nombre,precio,cantidad,unidad,serie,estado
+

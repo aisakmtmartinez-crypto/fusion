@@ -1,13 +1,18 @@
 # main.py
 from inventario import Inventario
-from productos import Producto
+from productos import Producto,Consumibles,Equipo,Reactivo
 from ventas import Ventas
+from datetime import datetime
 
 inv = Inventario()
 inv.leer_csv("inventario.csv")
 ruta = r"D:\documentos\cursoPOO\ejercicios\ejercicio3\inventario.csv"
 ruta_dos = r"D:\documentos\cursoPOO\ejercicios\ejercicio3\ventas.csv"
 
+dic = {"Consumibles":["Guantes","Alcohol","Tubo de ensayo","Papel filtro"],
+    "Equipo": ["Microscopio","Osciloscopio","Balanza digital"],
+    "Reactivo":["Acetona","Etanol","Acido"]
+    }
 while True:
     
     print("\n--- MENÚ ---")
@@ -22,28 +27,55 @@ while True:
     opcion = input("Elige una opción: ")
 
     if opcion == "1":
-        cant= int(input("¿Cuantos productos quieres agregar? Pon el numero: "))
-        
-        
-        if cant == 1:
-            nombre = input("Nombre del producto: ").capitalize()
-            precio = input("Precio: ")
-            cantidad = input("Cantidad: ")
-            inv.agregar_producto(Producto(nombre, precio, cantidad))
-            
-        if cant > 1:
-            lista = []
-            for i in range(1, cant + 1):
-                print(f"Producto{i}")
-                nombre = input("Nombre del producto: ")
-                precio = input("Precio: ")
-                cantidad = input("Cantidad: ")
-                inv.agregar_producto(Producto(nombre, precio, cantidad))
+           #eleccion = None
+        categoria = input("Que tipo de producto quieres agregar?\n1. Consumibles\n2. Equipo\n3. Reactivo\n Pon el numero: ")
+        if categoria == "1":
+            print("Esta es la lista de productos que hay en la categoria de Consumibles")
+            mostrar= dic.get("Consumibles")
+            print("\n ".join(mostrar))
+            producto = input("Que producto? ").capitalize()
+            if producto in dic.get("Consumibles"):
+                #cant= int(input("¿Cuantos productos quieres agregar? Pon el numero: "))
                 
-        # ✅ Mostrar el total una sola vez, al final de todos los agregados
-        total = inv.calcular_valor_total()
-        print(f"\n✅ Se agregaron {cant} productos.")
-        print(f"💰 Valor total actual del inventario: ${total:.2f}")
+                #if cant == 1:
+                    
+                precio = float(input("Precio: "))
+                cantidad = int(input("Cantidad: "))
+                unidad = input("¿En que unidad? ")
+                inv.agregar_producto(Consumibles(1,producto, precio, cantidad,unidad))
+
+        if categoria == "2":
+            print("Esta es la lista de productos que hay en la categoria de Equipo")
+            mostrar= dic.get("Equipo")
+            print("\n ".join(mostrar))
+            producto = input("Que producto? ").capitalize()
+            if producto in dic.get("Equipo"):
+                precio = float(input("Precio: "))
+                cantidad = input("Cantidad: ")
+                numero_serie = input("¿Cual es el numero de serie? ")
+                estado = input("¿Cual es su estado? ")
+                inv.agregar_producto(Equipo(1,producto, precio, cantidad,numero_serie,estado))
+                
+        if categoria == "3":
+            print("Esta es la lista de productos que hay en la categoria de Reactivos")
+            mostrar= dic.get("Reactivo")
+            print("\n ".join(mostrar))
+            producto = input("Que producto? ").capitalize()
+            if producto in dic.get("Reactivo"):
+                precio = input("Precio: ")
+                cantidad = int(input("Cantidad: "))
+                caducidad= input("Pon su fecha de caducidad: Formato dd/mm/aaaa\n")
+                fecha = datetime.strptime(caducidad, "%d/%m/%Y")
+                peligrosidad = input("Cual es su nivel de peligrosidad? (Bajo,Medio,Alto) ").capitalize()
+                actual = datetime.now()
+                reactivo = Reactivo(1,producto, precio, cantidad,fecha,peligrosidad)
+                print(reactivo.esta_vencido(actual))
+                inv.agregar_producto(reactivo)
+                
+        
+        #total = inv.calcular_valor_total()
+        
+        #print(f"💰 Valor total actual del inventario: ${total:.2f}")
         
     elif opcion == "2":
         nombre = input("Nombre del producto a eliminar: ").capitalize()
@@ -102,3 +134,4 @@ while True:
         break
     else:
         print("❌ Opción no válida, intenta de nuevo.")
+
