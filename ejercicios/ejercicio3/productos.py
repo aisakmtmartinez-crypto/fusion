@@ -1,7 +1,8 @@
 #Objetivo: practicar clases, atributos, métodos y constructores.
 
 class Producto:
-    def __init__(self, nombre, precio, cantidad):
+    def __init__(self,id, nombre, precio, cantidad):
+        self.id= id
         self.nombre = nombre
         self.precio = float(precio)
         self.cantidad = int(cantidad)
@@ -12,3 +13,33 @@ class Producto:
     #__str__ Permite impirmir objetos de forma legible
     def __str__(self):
         return f"{self.nombre} - Precio: ${self.precio:.2f} - Cantidad: {self.cantidad}"
+    
+
+class Consumibles(Producto):
+    def __init__(self,id,nombre,precio,cantidad,unidad):
+        super().__init__(id,nombre,precio,cantidad)
+        self.unidad= unidad
+        
+    def __str__(self):
+        return f"{self.nombre} ({self.cantidad} {self.unidad})"
+    
+class Equipo(Producto):
+    def __init__(self,id,nombre,precio,cantidad,numero_serie,estado = "Funcional"):
+        super().__init__(id,nombre,precio,cantidad)
+        self.numero_serie = numero_serie
+        self.estado = estado
+    
+    def marcar_mantenimiento(self):
+        self.estado = "En mantenimiento"
+        
+class Reactivo(Producto):
+    def __init__(self,id,nombre,precio,cantidad,caducidad,peligrosidad):
+        super().__init__(id,nombre,precio,cantidad)
+        self.caducidad= caducidad
+        self.peligrosidad = peligrosidad
+    
+    def esta_vencido(self, fecha_actual):
+        return fecha_actual > self.caducidad
+        
+    
+    
