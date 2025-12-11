@@ -70,4 +70,5 @@ class Juego:
         print(len(self.personajes))
         
     def mostrar_personaje(self):
-        pass
+        print("Segun es una funcion para mostrar para mostrar personajes")
+        self.personajes
